@@ -148,3 +148,16 @@ Example = [80181, 80131]
 
 for i in Example:
     __main__(i, 2026)
+
+
+### ait works no cover page
+# def __main__(CourseIds,Year):
+#     PdfHtmlPage = SearchTestDb(CourseIds,Year)
+#     PdfFileList = DownloadTests(str(CourseIds),PdfHtmlPage)['PdfFileList']
+#     PdfCombine(CourseIds,PdfFileList)
+
+# Example = [80181, 80131]
+
+
+# for i in Example:
+#     __main__(i, 2026)
