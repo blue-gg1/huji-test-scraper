@@ -60,7 +60,7 @@ PdfFileList = DownloadTests(str(80131),SearchTestDb(80131,2005))['PdfFileList']
 print(PdfFileList)
 writer = PdfWriter()
 
-for i in PdfFileList:
+for i in PdfFileList[::-1]:
     writer.append(i)
 writer.write("80131.pdf")
 writer.close()
