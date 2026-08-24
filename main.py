@@ -1,4 +1,4 @@
-import requests, re, os
+import requests, re, os, glob
 from urllib.parse import urlparse
 from datetime import datetime
 
@@ -45,6 +45,14 @@ def DownloadTests(CourseNumber, Html):
         with open("tests/"+CourseNumber+"/"+PdfFileName,'wb') as Pdf:
             Pdf.write(pdf.content)
         pdf.close
+    return {
+        'PdfList' : PdfUrls
+    }
 
 
 DownloadTests(str(80131),SearchTestDb(80131,2005))
+
+all_pdfs= glob.glob('tests/'+str(80131)+'*.pdf')
+with open('testpdf.pdf','wb') as testpdf:
+    testpdf.write(all_pdfs)
+    testpdf.close
