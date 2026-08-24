@@ -30,8 +30,15 @@ def SearchTestDb(CourseNumber, Year):
         exit()
 
 
-html = SearchTestDb(80131,(str(datetime.now().year)))['HtmlContent']
-print(html)
+# html = SearchTestDb(80131,(str(datetime.now().year)))['HtmlContent']
+html = SearchTestDb(80131,2001)['HtmlContent']
+# print(html)
 UrlPdfRegex = r'https?://[^"\']+\.pdf'
 PdfUrls = re.findall(UrlPdfRegex,str(html))
-print(PdfUrls)
+# print(PdfUrls)
+
+
+for i in PdfUrls:
+    print(PdfUrls)
+    pdf = requests.get(i,headers=UrlHeaders,cookies=UrlCookies)
+    print(pdf.content)
