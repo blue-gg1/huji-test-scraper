@@ -1,5 +1,6 @@
 import requests, re, os, glob
-from pypdf import PdfWriter 
+from pypdf import PdfWriter, PdfReader
+from pypdf.errors import PdfReadError
 from urllib.parse import urlparse
 from datetime import datetime
 
@@ -61,6 +62,11 @@ print(PdfFileList)
 writer = PdfWriter()
 
 for i in PdfFileList[::-1]:
-    writer.append(i)
+    try:
+        PdfReader(i)
+    except PdfReadError:
+        print("invalid PDF file")
+    else:
+        writer.append(i)
 writer.write("80131.pdf")
 writer.close()
