@@ -1,4 +1,10 @@
 import requests, re, os, glob
+import textwrap, requests, cv2, json
+from PIL import Image, ImageFont, ImageDraw
+import numpy as np
+from random import randint
+import pandas as pd
+import pprint
 from pypdf import PdfWriter, PdfReader
 from pypdf.errors import PdfReadError
 from urllib.parse import urlparse
@@ -69,7 +75,8 @@ def PdfCombine(CourseNumber, List):
     writer.write(str(CourseNumber)+".pdf")
     writer.close()
 
-
+def PdfFirstPage(CourseId, Year):
+    pass
 
 def __main__(CourseIds):
     PdfHtmlPage = SearchTestDb(CourseIds,2026)
