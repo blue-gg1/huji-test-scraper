@@ -20,7 +20,6 @@ UrlCookies = {
 
 def SearchTestDb(CourseNumber, Year):
     UrlGui = 'https://www4.huji.ac.il/htbin/exams/exams.cgi'
-
     UrlData = f'action=mode2&coursenum={CourseNumber}&coursename=&teachername=&keywords=&year2={Year}&year1=2000&moed=0&semester=0&Submit=%F9%EC%E7'  
 
     r = requests.post(UrlGui,UrlData,headers=UrlHeaders,cookies=UrlCookies)
@@ -56,17 +55,29 @@ def DownloadTests(CourseNumber, Html):
     }
 
 
-PdfFileList = DownloadTests(str(80131),SearchTestDb(80131,2026))['PdfFileList']
 
-print(PdfFileList)
-writer = PdfWriter()
+def PdfCombine(CourseNumber, List):
+    writer = PdfWriter()
 
-for i in PdfFileList[::-1]:
-    try:
-        PdfReader(i)
-    except PdfReadError:
-        print("invalid PDF file")
-    else:
-        writer.append(i)
-writer.write("80131.pdf")
-writer.close()
+    for PdfFile in List[::-1]:
+        try:
+            PdfReader(PdfFile)
+        except PdfReadError:
+            print("invalid PDF file")
+        else:
+            writer.append(PdfFile)
+    writer.write(str(CourseNumber)+".pdf")
+    writer.close()
+
+
+
+def __main__(CourseIds):
+    PdfHtmlPage = SearchTestDb(80131,2026)
+    PdfFileList = DownloadTests(str(80131),PdfHtmlPage)['PdfFileList']
+    PdfCombine(CourseIds,PdfFileList)
+
+Example = [80181, 80131]
+
+
+for i in Example:
+    __main__(i)
