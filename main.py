@@ -18,3 +18,7 @@ UrlCookies = {
   'TS6368d62d027': '082149a1b4ab2000d3cf882c57f91c9cf9e733b1dd0b30091d81ed29c62017648d6bb5adb3df2726084756c3b91130008f560bed0e525baa92753f2fdc7b2cfbde0348df7da96b04117a6b3b42022b9b527f31d2f13e04c3716005cae46d6bca'
 }
 UrlData = 'action=mode2&coursenum=80131&coursename=&teachername=&keywords=&year2=2026&year1=2000&moed=0&semester=0&Submit=%F9%EC%E7'
+
+
+r = requests.post(UrlGui,UrlData,headers=UrlHeaders,cookies=UrlCookies)
+print(r.content)
