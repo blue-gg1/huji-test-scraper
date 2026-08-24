@@ -1,5 +1,5 @@
 import requests, re, os, glob
-# from pypdf import PdfMerger
+from pypdf import PdfWriter 
 from urllib.parse import urlparse
 from datetime import datetime
 
@@ -58,3 +58,9 @@ def DownloadTests(CourseNumber, Html):
 PdfFileList = DownloadTests(str(80131),SearchTestDb(80131,2005))['PdfFileList']
 
 print(PdfFileList)
+writer = PdfWriter()
+
+for i in PdfFileList:
+    writer.append(i)
+writer.write("80131.pdf")
+writer.close()
