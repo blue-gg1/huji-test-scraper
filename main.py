@@ -1,4 +1,5 @@
-import requests, re
+import requests, re, os
+from urllib.parse import urlparse
 from datetime import datetime
 
 UrlHeaders = {
@@ -35,10 +36,13 @@ html = SearchTestDb(80131,2001)['HtmlContent']
 # print(html)
 UrlPdfRegex = r'https?://[^"\']+\.pdf'
 PdfUrls = re.findall(UrlPdfRegex,str(html))
+
+FileNameRegex = r'80131[^"\']+\.pdf'
 # print(PdfUrls)
 
 
 for i in PdfUrls:
     print(PdfUrls)
-    pdf = requests.get(i,headers=UrlHeaders,cookies=UrlCookies)
-    print(pdf.content)
+    print(os.path.basename(urlparse(i).path))
+    # pdf = requests.get(i,headers=UrlHeaders,cookies=UrlCookies)
+    # print(pdf.content)
