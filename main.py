@@ -28,7 +28,7 @@ def SearchTestDb(CourseNumber, Year):
         print("did not get 200")
         exit()
 
-def DownloadTests(Html):
+def DownloadTests(CourseNumber, Html):
     UrlPdfRegex = r'https?://[^"\']+\.pdf'
     PdfUrls = re.findall(UrlPdfRegex,str(Html))
 
@@ -36,9 +36,15 @@ def DownloadTests(Html):
         print(UrlOfPdf)
         PdfFileName = os.path.basename(urlparse(UrlOfPdf).path)
         pdf = requests.get(UrlOfPdf,headers=UrlHeaders,cookies=UrlCookies)
-        with open("tests/"+PdfFileName,'wb') as Pdf:
+
+        if os.path.isdir("tests/"+CourseNumber) == True:
+            pass
+        else:
+            os.mkdir("tests/"+CourseNumber)
+
+        with open("tests/"+CourseNumber+"/"+PdfFileName,'wb') as Pdf:
             Pdf.write(pdf.content)
         pdf.close
 
 
-DownloadTests(SearchTestDb(80131,2005))
+DownloadTests(str(80131),SearchTestDb(80131,2005))
