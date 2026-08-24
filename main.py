@@ -23,9 +23,7 @@ def SearchTestDb(CourseNumber, Year):
 
     r = requests.post(UrlGui,UrlData,headers=UrlHeaders,cookies=UrlCookies)
     if r.status_code == 200:
-        return {
-            'HtmlContent' :r.content
-            }
+        return r.content
     else:
         print("did not get 200")
         exit()
@@ -43,4 +41,4 @@ def DownloadTests(Html):
         pdf.close
 
 
-DownloadTests(SearchTestDb(80131,2005)['HtmlContent'])
+DownloadTests(SearchTestDb(80131,2005))
