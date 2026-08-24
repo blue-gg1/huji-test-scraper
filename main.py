@@ -122,7 +122,7 @@ def GetNamesFromShnaton(CourseNumber: int, Year: int): # the year is from the PD
 
     if ShnatonJson.status_code == 200: # dont trip over the network TODO: make this an assert.
         ShantonObject = json.loads(ShnatonJson.content)
-        if ShantonObject[0]['code'] == (CourseNumber): # make sure we got the right course. TODO: make this an assert.
+        if str(ShantonObject[0]['code']) == str(CourseNumber): # make sure we got the right course. TODO: make this an assert.
             print(str(CourseNumber) + "good")
             return(ShantonObject[0]['name']['he'])
         else:
@@ -143,7 +143,7 @@ def __main__(CourseIds,Year):
 
     # PdfCombine(CourseIds,PdfFileList)
 
-Example = [80131, 80181]
+Example = [80181, 80131]
 
 
 for i in Example:
