@@ -1,4 +1,4 @@
-import requests
+import requests, re
 from datetime import datetime
 
 
@@ -28,5 +28,8 @@ def SearchTestDb(CourseNumber, Year):
         print("did not get 200")
         exit()
 
-html = SearchTestDb(80131,(str(datetime.now().year)))
+
+html = SearchTestDb(80131,(str(datetime.now().year)))['HtmlContent']
 print(html)
+UrlPdfRegex = re.compile('https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*).pdf')
+print(re.match(UrlPdfRegex,str(html)))
