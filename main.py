@@ -43,6 +43,8 @@ FileNameRegex = r'80131[^"\']+\.pdf'
 
 for i in PdfUrls:
     print(PdfUrls)
-    print(os.path.basename(urlparse(i).path))
-    # pdf = requests.get(i,headers=UrlHeaders,cookies=UrlCookies)
-    # print(pdf.content)
+    PdfFileName = os.path.basename(urlparse(i).path)
+    pdf = requests.get(i,headers=UrlHeaders,cookies=UrlCookies)
+    with open(PdfFileName,'wb') as Pdf:
+        Pdf.write(pdf.content)
+    pdf.close
