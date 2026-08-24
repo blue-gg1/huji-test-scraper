@@ -1,6 +1,6 @@
 import requests, re, os, glob
 import textwrap, requests, cv2, json
-from PIL import Image, ImageFont, ImageDraw
+# from PIL import Image, ImageFont, ImageDraw
 import numpy as np
 from random import randint
 import pandas as pd
@@ -76,15 +76,74 @@ def PdfCombine(CourseNumber, List):
     writer.close()
 
 def PdfFirstPage(CourseId, Year):
-    pass
+# def TextToIcon(Text, TemplateImage, Font, FilePath, CourseSeed):
+    # Open image with OpenCV
+    im_o = np.zeros((1000,1000,3), np.uint8)
 
-def __main__(CourseIds):
-    PdfHtmlPage = SearchTestDb(CourseIds,2026)
-    PdfFileList = DownloadTests(str(CourseIds),PdfHtmlPage)['PdfFileList']
-    PdfCombine(CourseIds,PdfFileList)
+    # im_o = cv2.imread(TemplateImage) # read from image.
+
+    # Make into PIL Image
+    im_p = Image.fromarray(im_o)
+
+    # Get a drawing context
+    draw = ImageDraw.Draw(im_p)
+    monospace = ImageFont.truetype(Font,130)
+
+    draw.rectangle( # make the backaround a solid colour
+        (0,0,1000,1000),
+        fill = (randint(0,50),randint(0,50),randint(0,50)) # make it a dark pallet
+    )
+
+    draw.ellipse( # draw the main circle
+        (20, 20, 1000, 1000), # circle covers the entire image
+        fill = (randint(20,255),randint(20,255),randint(20,255)),  # random colour for the circle. make it a not too dark pallet.
+        outline = (randint(0,255),randint(0,255),randint(0,255)), # random colour for the outline
+        width=20
+    )
+
+    draw.multiline_text( # place the text
+        # (im_p.width / 2, (im_p.height / 2)+40),
+        (im_p.width / 2, (im_p.height / 2)), # make it be the middle
+        Text,
+        fill="black", # make the text black
+        font=monospace,
+        align="center",
+        anchor="mm", # make it the middle
+        stroke_width=4, # add the outline
+        stroke_fill="white" # make the outline white
+    )
+    result_o = np.array(im_p)
+    cv2.imwrite(FilePath, result_o)
+
+def GetNamesFromShnaton(CourseNumber: int, Year: int): # the year is from the PDF. assume current year always,. not going back to 2000
+    # get the json from the shanton:
+    # TODO: fake headers to look like a browser (only needed if blocked.)
+    ShnatonJson = requests.get("https://shnaton.huji.ac.il/api/courses/code/"+str(CourseNumber)+"?year="+str(Year))
+
+    if ShnatonJson.status_code == 200: # dont trip over the network TODO: make this an assert.
+        ShantonObject = json.loads(ShnatonJson.content)
+        if ShantonObject[0]['code'] == CourseNumber: # make sure we got the right course. TODO: make this an assert.
+            print(str(CourseNumber) + "good")
+        else:
+            print(str(CourseNumber) + "bad")
+            print("issue with the shanton id abort.")
+            print(ShantonObject)
+            exit()
+        return(ShantonObject[0]['name']['he'])
+    else:
+        print("page is not 200, abort")
+        exit()
+
+
+def __main__(CourseIds,Year):
+    # PdfHtmlPage = SearchTestDb(CourseIds,Year)
+    # PdfFileList = DownloadTests(str(CourseIds),PdfHtmlPage)['PdfFileList']
+    print(GetNamesFromShnaton(CourseIds,Year))
+
+    # PdfCombine(CourseIds,PdfFileList)
 
 Example = [80181, 80131]
 
 
 for i in Example:
-    __main__(i)
+    __main__(i, 2026)
