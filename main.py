@@ -1,4 +1,5 @@
 import requests, re, os, glob
+# from pypdf import PdfMerger
 from urllib.parse import urlparse
 from datetime import datetime
 
@@ -32,6 +33,7 @@ def DownloadTests(CourseNumber, Html):
     UrlPdfRegex = r'https?://[^"\']+\.pdf'
     PdfUrls = re.findall(UrlPdfRegex,str(Html))
 
+    PdfFileList = []
     for UrlOfPdf in PdfUrls:
         print(UrlOfPdf)
         PdfFileName = os.path.basename(urlparse(UrlOfPdf).path)
@@ -44,15 +46,15 @@ def DownloadTests(CourseNumber, Html):
 
         with open("tests/"+CourseNumber+"/"+PdfFileName,'wb') as Pdf:
             Pdf.write(pdf.content)
-        pdf.close
+        pdf.close()
+
+        PdfFileList.append("tests/"+CourseNumber+"/"+PdfFileName)
     return {
-        'PdfList' : PdfUrls
+        'PdfList' : PdfUrls,
+        'PdfFileList' : PdfFileList
     }
 
 
-DownloadTests(str(80131),SearchTestDb(80131,2005))
+PdfFileList = DownloadTests(str(80131),SearchTestDb(80131,2005))['PdfFileList']
 
-all_pdfs= glob.glob('tests/'+str(80131)+'*.pdf')
-with open('testpdf.pdf','wb') as testpdf:
-    testpdf.write(all_pdfs)
-    testpdf.close
+print(PdfFileList)
