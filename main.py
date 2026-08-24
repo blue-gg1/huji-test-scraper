@@ -1,6 +1,6 @@
 import requests, re, os, glob
 import textwrap, requests, cv2, json
-# from PIL import Image, ImageFont, ImageDraw
+from PIL import Image, ImageFont, ImageDraw
 import numpy as np
 from random import randint
 import pandas as pd
@@ -122,14 +122,15 @@ def GetNamesFromShnaton(CourseNumber: int, Year: int): # the year is from the PD
 
     if ShnatonJson.status_code == 200: # dont trip over the network TODO: make this an assert.
         ShantonObject = json.loads(ShnatonJson.content)
-        if ShantonObject[0]['code'] == CourseNumber: # make sure we got the right course. TODO: make this an assert.
+        if ShantonObject[0]['code'] == (CourseNumber): # make sure we got the right course. TODO: make this an assert.
             print(str(CourseNumber) + "good")
+            return(ShantonObject[0]['name']['he'])
         else:
-            print(str(CourseNumber) + "bad")
+            print(str(CourseNumber) + "bad. is not "+str(CourseNumber))
             print("issue with the shanton id abort.")
+            print(ShantonObject[0]['code'])
             print(ShantonObject)
             exit()
-        return(ShantonObject[0]['name']['he'])
     else:
         print("page is not 200, abort")
         exit()
@@ -142,7 +143,7 @@ def __main__(CourseIds,Year):
 
     # PdfCombine(CourseIds,PdfFileList)
 
-Example = [80181, 80131]
+Example = [80131, 80181]
 
 
 for i in Example:
