@@ -47,4 +47,4 @@ def DownloadTests(CourseNumber, Html):
         pdf.close
 
 
-DownloadTests(str(80031),SearchTestDb(80131,2005))
+DownloadTests(str(80131),SearchTestDb(80131,2005))
