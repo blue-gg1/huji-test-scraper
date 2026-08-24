@@ -72,8 +72,8 @@ def PdfCombine(CourseNumber, List):
 
 
 def __main__(CourseIds):
-    PdfHtmlPage = SearchTestDb(80131,2026)
-    PdfFileList = DownloadTests(str(80131),PdfHtmlPage)['PdfFileList']
+    PdfHtmlPage = SearchTestDb(CourseIds,2026)
+    PdfFileList = DownloadTests(str(CourseIds),PdfHtmlPage)['PdfFileList']
     PdfCombine(CourseIds,PdfFileList)
 
 Example = [80181, 80131]
