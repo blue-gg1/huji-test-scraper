@@ -31,5 +31,6 @@ def SearchTestDb(CourseNumber, Year):
 
 html = SearchTestDb(80131,(str(datetime.now().year)))['HtmlContent']
 print(html)
-UrlPdfRegex = re.compile('https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*).pdf')
-print(re.search(UrlPdfRegex,str(html)))
+UrlPdfRegex = r'https?://[^"\']+\.pdf'
+
+print(re.findall(UrlPdfRegex,str(html)))
