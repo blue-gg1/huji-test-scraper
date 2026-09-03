@@ -118,6 +118,7 @@ def PdfFirstPage(CourseId, Year):
 def GetNamesFromShnaton(CourseNumber: int, Year: int): # the year is from the PDF. assume current year always,. not going back to 2000
     # get the json from the shanton:
     # TODO: fake headers to look like a browser (only needed if blocked.)
+    # ShnatonJson = requests.get("https://shnaton.huji.ac.il/api/courses/code/"+str(CourseNumber)+"?year="+str(Year))
     ShnatonJson = requests.get("https://shnaton.huji.ac.il/api/courses/code/"+str(CourseNumber)+"?year="+str(Year))
 
     if ShnatonJson.status_code == 200: # dont trip over the network TODO: make this an assert.
@@ -136,14 +137,15 @@ def GetNamesFromShnaton(CourseNumber: int, Year: int): # the year is from the PD
         exit()
 
 
+Example = [80134]
+
+
+
 def __main__(CourseIds,Year):
-    # PdfHtmlPage = SearchTestDb(CourseIds,Year)
-    # PdfFileList = DownloadTests(str(CourseIds),PdfHtmlPage)['PdfFileList']
+    PdfHtmlPage = SearchTestDb(CourseIds,Year)
+    PdfFileList = DownloadTests(str(CourseIds),PdfHtmlPage)['PdfFileList']
     print(GetNamesFromShnaton(CourseIds,Year))
-
-    # PdfCombine(CourseIds,PdfFileList)
-
-Example = [80181, 80131]
+    PdfCombine(CourseIds,PdfFileList)
 
 
 for i in Example:
