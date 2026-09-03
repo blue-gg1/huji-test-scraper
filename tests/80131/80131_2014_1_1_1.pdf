@@ -24,7 +24,7 @@ had its name changed, or is temporarily unavailable.<br>
 
 <form method="post" action="/cgi-bin/mm/reportus.pl" name=zuzu>
 <input type=hidden name="subject" value="Error 404 - page not found">
-<input type=hidden name="ip" value="147.235.197.241" >
+<input type=hidden name="ip" value="192.114.88.54" >
 <input type=hidden name="server_name" value="www4.huji.ac.il" >
 <input type=hidden name="requested" value="/exams/80131_2014_1_1_1.pdf" >
 <input type=hidden name="ref" value="https://www4.huji.ac.il/htbin/exams/exams.cgi" >
